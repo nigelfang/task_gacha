@@ -23,7 +23,7 @@ export function fiveStarChance(pity5Before) {
 const pick = (arr, rng) => arr[Math.floor(rng() * arr.length)];
 
 // Rolls once on `banner`, MUTATING `pity`. Returns { item, fiftyResult }.
-//   item        { name, icon, desc, rarity }
+//   item        { name, image, desc, rarity }
 //   fiftyResult "won" | "lost" | "guaranteed" | null (non-5★)
 export function rollOne(banner, pity, rng = Math.random) {
   let rarity;

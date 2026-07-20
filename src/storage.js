@@ -6,8 +6,9 @@ export function defaultSave() {
   return {
     credits: CONFIG.startingCredits,
     pity: {},      // bannerId -> pity object
-    inventory: {}, // item name -> { name, icon, desc, rarity, count, bannerId }
+    inventory: {}, // item name -> { name, image, desc, rarity, count, bannerId }
     stats: { totalPulls: 0, fiveStars: 0, fourStars: 0 },
+    lastCollect: null, // timestamp (ms) of the last daily collect claim, or null
   };
 }
 

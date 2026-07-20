@@ -16,7 +16,7 @@ export default function BannerMenu({ banners, pityFor, onSelect }) {
               onClick={() => onSelect(b.id)}
             >
               <div className="banner-card-art">
-                <span className="banner-card-icon">{b.featured5.icon}</span>
+                <img className="banner-card-icon" src={b.featured5.image} alt={b.featured5.name} />
                 <div className="banner-card-glow" />
               </div>
               <div className="banner-card-body">

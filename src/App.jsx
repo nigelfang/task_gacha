@@ -7,14 +7,30 @@ import BannerView from "./components/BannerView.jsx";
 import RollOverlay from "./components/RollOverlay.jsx";
 import Inventory from "./components/Inventory.jsx";
 
+const DAILY_COOLDOWN_MS = CONFIG.dailyCollectCooldownHours * 60 * 60 * 1000;
+
+function formatCooldown(ms) {
+  const totalSeconds = Math.max(0, Math.ceil(ms / 1000));
+  const h = Math.floor(totalSeconds / 3600);
+  const m = Math.floor((totalSeconds % 3600) / 60);
+  const s = totalSeconds % 60;
+  return `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
+
 export default function App() {
   const [save, setSave] = useState(loadSave);
   const [screen, setScreen] = useState({ name: "menu" }); // menu | banner | inventory
   const [overlay, setOverlay] = useState(null); // { banner, results, refund }
   const [toast, setToast] = useState(null);
+  const [now, setNow] = useState(() => Date.now());
   const toastTimer = useRef(null);
 
   useEffect(() => persistSave(save), [save]);
+
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, []);
 
   const showToast = (msg) => {
     clearTimeout(toastTimer.current);
@@ -70,9 +86,30 @@ export default function App() {
     setOverlay({ banner, results, refund });
   };
 
-  const topUp = () => {
-    setSave((s) => ({ ...s, credits: s.credits + CONFIG.freeTopUp }));
-    showToast(`+${CONFIG.freeTopUp.toLocaleString()} 💎 claimed!`);
+  const msSinceCollect = save.lastCollect == null ? Infinity : now - save.lastCollect;
+  const canCollect = msSinceCollect >= DAILY_COOLDOWN_MS;
+  const msUntilCollect = canCollect ? 0 : DAILY_COOLDOWN_MS - msSinceCollect;
+
+  const dailyCollect = () => {
+    if (!canCollect) return;
+    setSave((s) => ({ ...s, credits: s.credits + CONFIG.dailyCollectAmount, lastCollect: Date.now() }));
+    showToast(`+${CONFIG.dailyCollectAmount.toLocaleString()} 💎 collected!`);
+  };
+
+  const consumeItem = (name, qty) => {
+    setSave((s) => {
+      const owned = s.inventory[name];
+      if (!owned) return s;
+      const remaining = owned.count - qty;
+      const inventory = { ...s.inventory };
+      if (remaining > 0) {
+        inventory[name] = { ...owned, count: remaining };
+      } else {
+        delete inventory[name];
+      }
+      return { ...s, inventory };
+    });
+    showToast(`Consumed ${qty > 1 ? `${qty}× ` : ""}${name}`);
   };
 
   const resetSave = () => {
@@ -91,7 +128,7 @@ export default function App() {
     <div className="app">
       <header className="topbar">
         <button className="brand" onClick={() => setScreen({ name: "menu" })}>
-          ✦ Gacha Sim
+          ✦ Love and Deeptask
         </button>
         <nav className="nav">
           <button
@@ -112,8 +149,17 @@ export default function App() {
         </nav>
         <div className="wallet">
           <span className="credits">💎 {save.credits.toLocaleString()}</span>
-          <button className="topup" onClick={topUp} title={`Free top-up: +${CONFIG.freeTopUp}`}>
-            ＋
+          <button
+            className={`collect-btn ${canCollect ? "ready" : "cooldown"}`}
+            onClick={dailyCollect}
+            disabled={!canCollect}
+            title={
+              canCollect
+                ? `Daily collect: +${CONFIG.dailyCollectAmount}`
+                : `Next daily collect in ${formatCooldown(msUntilCollect)}`
+            }
+          >
+            {canCollect ? "🎁 Collect" : formatCooldown(msUntilCollect)}
           </button>
         </div>
       </header>
@@ -135,14 +181,10 @@ export default function App() {
             onBack={() => setScreen({ name: "menu" })}
           />
         )}
-        {screen.name === "inventory" && <Inventory save={save} />}
+        {screen.name === "inventory" && <Inventory save={save} onConsume={consumeItem} />}
       </main>
 
       <footer className="footer">
-        <span>
-          Rolls are simulated — 5★ base {(CONFIG.rates.five * 100).toFixed(1)}%, hard pity{" "}
-          {CONFIG.hardPity5}. Edit <code>src/data/banners.js</code> to customize.
-        </span>
         <button className="danger" onClick={resetSave}>
           Reset save
         </button>

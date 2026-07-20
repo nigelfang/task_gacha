@@ -1,9 +1,19 @@
 import { CONFIG } from "../data/banners.js";
 
+const starsClass = (rarity) => (rarity === 5 ? "gold" : rarity === 4 ? "purple" : "blue");
+
 export default function BannerView({ banner, pity, credits, onRoll, onBack }) {
   const b = banner;
   const canSingle = credits >= CONFIG.costSingle;
   const canTen = credits >= CONFIG.costTen;
+
+  const allItems = [
+    { ...b.featured5, rarity: 5, featured: true },
+    ...(b.standard5 ?? []).map((it) => ({ ...it, rarity: 5, featured: false })),
+    ...(b.featured4 ?? []).map((it) => ({ ...it, rarity: 4, featured: true })),
+    ...(b.pool4 ?? []).map((it) => ({ ...it, rarity: 4, featured: false })),
+    ...(b.pool3 ?? []).map((it) => ({ ...it, rarity: 3, featured: false })),
+  ].sort((x, y) => y.rarity - x.rarity || Number(y.featured) - Number(x.featured));
 
   return (
     <section
@@ -16,7 +26,7 @@ export default function BannerView({ banner, pity, credits, onRoll, onBack }) {
 
       <div className="banner-hero">
         <div className="hero-art">
-          <span className="hero-icon">{b.featured5.icon}</span>
+          <img className="hero-icon" src={b.featured5.image} alt={b.featured5.name} />
           <div className="hero-glow" />
         </div>
         <div className="hero-info">
@@ -28,13 +38,27 @@ export default function BannerView({ banner, pity, credits, onRoll, onBack }) {
               <span className="hero-kicker small">Rate-Up ★★★★</span>
               {b.featured4.map((f) => (
                 <span key={f.name} className="chip chip-purple">
-                  {f.icon} {f.name}
+                  <img className="chip-icon" src={f.image} alt="" /> {f.name}
                 </span>
               ))}
             </div>
           )}
         </div>
       </div>
+
+      <details className="items-dropdown">
+        <summary>All items in this banner ({allItems.length})</summary>
+        <div className="items-dropdown-grid">
+          {allItems.map((it) => (
+            <div key={it.name} className={`items-dropdown-entry r${it.rarity}`} title={it.desc}>
+              <img className="dropdown-item-icon" src={it.image} alt={it.name} />
+              <span className={`stars ${starsClass(it.rarity)}`}>{"★".repeat(it.rarity)}</span>
+              <span className="dropdown-item-name">{it.name}</span>
+              {it.featured && <span className="chip chip-gold dropdown-featured">Rate-up</span>}
+            </div>
+          ))}
+        </div>
+      </details>
 
       <div className="banner-panel">
         <div className="pity-panel">
@@ -110,8 +134,14 @@ export default function BannerView({ banner, pity, credits, onRoll, onBack }) {
               Duplicates refund credits: 3★ +{CONFIG.dupeBonus[3]}, 4★ +{CONFIG.dupeBonus[4]},
               5★ +{CONFIG.dupeBonus[5]}.
             </li>
-            <li>
-              Standard 5★ pool: {b.standard5.map((s) => `${s.icon} ${s.name}`).join(", ")}
+            <li className="standard5-line">
+              Standard 5★ pool:{" "}
+              {b.standard5.map((s, i) => (
+                <span key={s.name} className="standard5-entry">
+                  <img className="chip-icon" src={s.image} alt="" /> {s.name}
+                  {i < b.standard5.length - 1 && ", "}
+                </span>
+              ))}
             </li>
           </ul>
         </details>
