@@ -4,7 +4,7 @@ export default function BannerMenu({ banners, pityFor, onSelect }) {
   return (
     <section className="menu">
       <h1 className="menu-title">Choose a Banner</h1>
-      <p className="menu-sub">Every wish is a small act of hope. Or math. Mostly math.</p>
+      <p className="menu-sub">Gamba gamba gamba</p>
       <div className="banner-grid">
         {banners.map((b) => {
           const pity = pityFor(b.id);

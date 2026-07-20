@@ -99,7 +99,7 @@ export const BANNERS = [
     name: "Nacho Banner",
     tagline: "Prizes that Nacho will get you",
     theme: { from: "#3b0d17", to: "#1a0b2e", accent: "#ff6b6b" },
-    featured5: item("Maid Outfit", "seraphina.svg", "Maid outfit for nacho to wear."),
+    featured5: item("Maid Outfit", "maid.jpg", "Maid outfit for nacho to wear."),
     standard5: [
       item("Ignar, Dragonlord Ascendant", "ignar.svg", "The mountain that learned to fly."),
       item("Lumielle, Saint of Dawn", "lumielle.svg", "Her prayer is a sunrise that never ends."),
