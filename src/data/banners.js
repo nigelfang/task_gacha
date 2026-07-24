@@ -8,7 +8,7 @@
 
 // ── Game settings ───────────────────────────────────────────────────
 export const CONFIG = {
-  startingCredits: 100000, // credits a brand-new player starts with
+  startingCredits: 1000, // credits a brand-new player starts with
   costSingle: 160,        // cost of a single roll
   costTen: 1440,          // cost of a 10-roll (discounted vs 1600)
   dailyCollectAmount: 100,     // credits granted by the daily collect button
@@ -101,27 +101,20 @@ export const BANNERS = [
     theme: { from: "#3b0d17", to: "#1a0b2e", accent: "#ff6b6b" },
     featured5: item("Maid Outfit", "maid.jpg", "Maid outfit for nacho to wear."),
     standard5: [
-      item("Ignar, Dragonlord Ascendant", "ignar.svg", "The mountain that learned to fly."),
-      item("Lumielle, Saint of Dawn", "lumielle.svg", "Her prayer is a sunrise that never ends."),
-      item("Voidkeeper Thane", "voidkeeper.svg", "He guards the door that must not open."),
+
     ],
     featured4: [
-      item("Mimi Petting Zoo", "ember-witch-calla.svg", "All you can pet until mimi gets angry."),
-      item("Knight of Briars Rowan", "knight-of-briars-rowan.svg", "Every thorn a promise kept."),
+      item("Mimi Petting Zoo", "petting.png", "All you can pet until mimi gets angry."),
     ],
     pool4: [
-      item("Stormcaller Ilya", "stormcaller-ilya.svg", "Argues with the sky. Usually wins."),
-      item("Runeblade Cassia", "runeblade-cassia.svg", "Her sword remembers every duel."),
-      item("Frostbow Neve", "frostbow-neve.svg", "One shot, one winter."),
-      item("Alchemist Puck", "alchemist-puck.svg", "Explosions are just enthusiastic chemistry."),
+      item("Howlin Ray's Hot Chicken", "howlin.jpg", "Spicy chicken from Howlin Ray's."),
     ],
     pool3: [
-      item("Iron Longsword", "iron-longsword.svg", "Reliable. Pointy."),
-      item("Oak Shortbow", "oak-shortbow.svg", "It creaks encouragingly."),
-      item("Apprentice Grimoire", "apprentice-grimoire.svg", "Chapter one: don't panic."),
-      item("Traveler's Spear", "travelers-spear.svg", "Doubles as a walking stick."),
-      item("Bronze Buckler", "bronze-buckler.svg", "Has stopped at least one arrow."),
-      item("Rusty Dagger", "rusty-dagger.svg", "Tetanus sold separately."),
+      item("Soup Time", "soup-harrassment.png", "Harrass soup until she gives up."),
+      item("Ice Cream - Nacho", "ice_cream.jpg", "Yummy ice cream when it hot."),
+      item("Boba - Nacho", "boba.png", "Booba."),
+      item("Shaved Ice - Nacho", "shaved_ice.webp", "Ululanis?"),
+      item("Frozen Yogurt - Nacho", "froyo.png", "Froyo."),
     ],
   },
   {
@@ -129,31 +122,25 @@ export const BANNERS = [
     name: "Laney Banner",
     tagline: "Prizes that you can get yourself",
     theme: { from: "#0b1e3d", to: "#2a0b3d", accent: "#ff8fd8" },
-    featured5: item("Kael — Event Horizon", "kael-event-horizon.svg", "Past the point of no return, he was already holding your hand."),
+    featured5: item("VIP Concert Tickets", "vip.jpg", "VIP Tickets to a cool concert."),
     standard5: [
-      item("Orion — First Light", "orion-first-light.svg", "The first star you ever wished on."),
-      item("Cassian — Gravity's Pull", "cassian-gravitys-pull.svg", "You fell. He calls it physics."),
-      item("Nova — Solar Flare", "nova-solar-flare.svg", "Too bright to look at. Impossible to look away."),
+
     ],
     featured4: [
-      item("Kael — Starlit Promise", "kael-starlit-promise.svg", "A vow written in constellations."),
-      item("Orion — Midnight Signal", "orion-midnight-signal.svg", "Three beeps: I. Miss. You."),
     ],
     pool4: [
-      item("Cassian — Neon Rain", "cassian-neon-rain.svg", "The city glowed, but he watched you."),
-      item("Nova — Comet Trail", "nova-comet-trail.svg", "Catch him if you can."),
-      item("Kael — Quiet Orbit", "kael-quiet-orbit.svg", "Comfortable silence, light-years wide."),
-      item("Orion — Photon Waltz", "orion-photon-waltz.svg", "May I have this lightspeed dance?"),
+      item("K-Pop Photo Card", "photo-card.jpg", "A K-Pop photo card"),
+      item("K-Pop Album", "kpop-album.png", "A K-Pop album"),
+
     ],
     pool3: [
-      item("Coffee Date Memory", "coffee-date-memory.svg", "Two cups, one blanket of steam."),
-      item("Rainy Walk Memory", "rainy-walk-memory.svg", "One umbrella was definitely intentional."),
-      item("Arcade Night Memory", "arcade-night-memory.svg", "He let you win. You let him think that."),
-      item("Stargazing Memory", "stargazing-memory.svg", "You watched the stars. He watched you."),
-      item("Text Message Memory", "text-message-memory.svg", "Read 2:47 AM. Replied 2:47 AM."),
-      item("Shared Playlist Memory", "shared-playlist-memory.svg", "Track 7 is about you."),
+      item("Ice Cream", "ice_cream.jpg", "Yummy ice cream when it hot."),
+      item("Boba", "boba.png", "Booba."),
+      item("Shaved Ice", "shaved_ice.webp", "Ululanis?"),
+      item("Frozen Yogurt", "froyo.png", "Froyo."),
     ],
   },
+  /*
   {
     id: "seasonal-banner",
     name: "Seasonal Banner",
@@ -184,4 +171,5 @@ export const BANNERS = [
       item("Coffee Stirrer", "coffee-stirrer.svg", "Stirrer of drinks. Starter of nothing."),
     ],
   },
+  */
 ];
